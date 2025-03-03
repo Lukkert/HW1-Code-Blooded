@@ -51,10 +51,11 @@ public partial class MainWindow : Window
 
                 Canvas.SetLeft(border, x * pixelSize); // Set the position of the pixel
                 Canvas.SetTop(border, y * pixelSize); // top for y, left for x
-
+                
+                int x1 = x; int y1 = y; // Need to copy the values to avoid closure issue
                 border.PointerPressed += (_, __) =>
                 {
-                    B2Image.ImageData[y, x] ^= 1; // Cool way to switch between 0 and 1
+                    B2Image.ImageData[y1, x1] ^= 1; // Cool way to switch between 0 and 1
                     DrawImage();
                 };
 
