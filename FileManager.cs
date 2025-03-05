@@ -22,6 +22,10 @@ Overview:
 - WriteB2img debugging method that prints a 2D array representation of an image to the console.
     This is useful for debugging or visualizing the image data.
 
+- FlipHorizontal method flips the image data from left to right.
+
+- FlipVertical method flips the image data from top to bottom.
+
 */
 using System;
 using System.IO;
