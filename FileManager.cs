@@ -198,14 +198,35 @@ public static class FileManager
         {
             for (int j = 0; j < cols; j++)
             {
-                #pragma warning disable CS8602
+#pragma warning disable CS8602
                 flipped[i, j] = B2Image.ImageData[i, cols - j - 1];
-                #pragma warning restore CS8602
+#pragma warning restore CS8602
             }
         }
-    B2Image.ImageData = flipped;
-    
+        B2Image.ImageData = flipped;
 
-    callback.DrawImage();
+
+        callback.DrawImage();
     }
+
+    public static void FlipVertical(MainWindow callback)
+    {
+        int rows = B2Image.Height;
+        int cols = B2Image.Width;
+        int[,] flipped = new int[rows, cols];
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+#pragma warning disable CS8602
+                flipped[i, j] = B2Image.ImageData[rows - i - 1, j];
+#pragma warning restore CS8602
+            }
+        }
+        B2Image.ImageData = flipped;
+
+        callback.DrawImage();
+    }
+
 }
