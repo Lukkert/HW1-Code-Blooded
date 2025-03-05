@@ -25,7 +25,9 @@ Overview:
 */
 using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Platform.Storage;
 
 namespace HW1;
@@ -181,5 +183,25 @@ public static class FileManager
             }
             Console.WriteLine();
         }
+    }
+    public static void FlipHorizontal(MainWindow callback)
+    {
+        int rows = B2Image.Height;
+        int cols = B2Image.Width;
+        int[,] flipped = new int[rows, cols];
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                #pragma warning disable CS8602
+                flipped[i, j] = B2Image.ImageData[i, cols - j - 1];
+                #pragma warning restore CS8602
+            }
+        }
+    B2Image.ImageData = flipped;
+    
+
+    callback.DrawImage();
     }
 }

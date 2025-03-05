@@ -20,6 +20,9 @@ public partial class MainWindow : Window
         LoadButton.Click += async (sender, e) => await FileManager.LoadB2img(this);
         SaveButton.Click += async (sender, e) => await FileManager.SaveB2img();
         SaveAsButton.Click += async (sender, e) => await FileManager.SaveAsB2img();
+        FlipHorizontalButton.Click += (sender, e) => FileManager.FlipHorizontal(this);
+        //FlipVerticalButton.Click += (sender, e) => FileManager.FlipVertical(this);
+
     }
 
     // Draw image on canvas, can also be used to redraw an image

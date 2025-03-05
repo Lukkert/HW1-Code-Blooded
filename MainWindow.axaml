@@ -37,6 +37,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock
                     Grid.Row="0"
@@ -107,6 +108,28 @@
                         Height="40"
                         Margin="5"
                         Content="Save As"
+                        FontSize="16" />
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="5"
+                    Margin="0,0,0,20"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="10">
+                    <Button
+                        Name="FlipVerticalButton"
+                        Width="125"
+                        Height="40"
+                        Margin="5"
+                        Content="Flip Vertical"
+                        FontSize="16" />
+                    
+                    <Button
+                        Name="FlipHorizontalButton"
+                        Width="125"
+                        Height="40"
+                        Margin="5"
+                        Content="Flip Horizontal"
                         FontSize="16" />
                 </StackPanel>
             </Grid>

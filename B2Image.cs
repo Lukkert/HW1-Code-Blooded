@@ -16,9 +16,9 @@ namespace HW1
     public class B2Image
     {
         public static string? FilePath { get; private set; }
-        public static int[,]? ImageData { get; private set; }
-        public static int Width { get; private set; }
-        public static int Height { get; private set; }
+        public static int[,]? ImageData { get; set; }
+        public static int Width { get; set; }
+        public static int Height { get; set; }
 
         public B2Image(IStorageFile file) 
         {
