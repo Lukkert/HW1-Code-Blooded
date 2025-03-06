@@ -53,6 +53,10 @@ public static class FileManager
         new("b2img.txt File")
         {
             Patterns = ["*.b2img.txt"]
+        },
+        new("b2img File")
+        {
+            Patterns = ["*.b2img"]
         }
         };
 
@@ -107,7 +111,12 @@ public static class FileManager
         new("b2img.txt File")
         {
             Patterns = ["*.b2img.txt"]
+        },
+        new("b2img binary File")
+        {
+            Patterns = ["*.b2img"]
         }
+
         };
 
         var options = new FilePickerSaveOptions
@@ -118,7 +127,9 @@ public static class FileManager
         };
 
         var file = await StorageProvider!.SaveFilePickerAsync(options);
-        if (file != null)
+        if (file == null)
+        {}
+        else if (file.Name.EndsWith(".b2img.txt") )
         {
             string imageContent = $"{B2Image.ImageData.GetLength(0)} {B2Image.ImageData.GetLength(1)}\n";
             for (int i = 0; i < B2Image.ImageData.GetLength(0); i++)
@@ -128,8 +139,23 @@ public static class FileManager
                     imageContent += B2Image.ImageData[i, j].ToString();
                 }
             }
-            var filePath = Path.ChangeExtension(file.Path.LocalPath, ".b2img.txt");
-            await File.WriteAllTextAsync(filePath, imageContent);
+            await File.WriteAllTextAsync(file.Path.LocalPath, imageContent);
+        }
+        else if (file.Name.EndsWith(".b2img") )
+        {
+            byte[] imageContent = new byte[2+B2Image.ImageData.GetLength(0)*B2Image.ImageData.GetLength(1)]; 
+            int index = 0;    
+            imageContent[index++] = (byte)B2Image.ImageData.GetLength(0); //Height 
+            imageContent[index++] = (byte)B2Image.ImageData.GetLength(1); //Width 
+            for (int i = 0; i < B2Image.ImageData.GetLength(0); i++)
+            {
+                for (int j = 0; j < B2Image.ImageData.GetLength(1); j++)
+                {
+                    imageContent[index++] += (byte)B2Image.ImageData[i, j];
+                }
+            }
+            var filePath = Path.ChangeExtension(file.Path.LocalPath, ".b2img");
+            await File.WriteAllBytesAsync(filePath, imageContent);
         }
     }
     public static int[,] ReadB2img(string path = "smile.b2img.txt")
@@ -173,7 +199,58 @@ public static class FileManager
         return image;
     }
 
+public static int[,] ReadB2imgBin(string path = "smile.b2img")
+    {
+        if (!File.Exists(path))
+        {
+            Console.WriteLine("File not found.");
+            return new int[0, 0];
+        }
+
+        byte[] buffer = File.ReadAllBytes(path);
+        if (buffer.Length < 2)
+        {
+            Console.WriteLine("Invalid file format.");
+            return new int[0, 0];
+        }
+
+        // Read image dimensions (height and width)
+        int height = buffer[0];
+        int width = buffer[1];
+
+        // Read pixel data and store in a 2D array
+        int[,] image = new int[height, width];
+        int index = 2;
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                if (index < buffer.Length)
+                {
+                    image[i, j] = buffer[index];
+                    index++;
+                }
+            }
+        }
+        return image;
+    }
+
     public static void WriteB2img(int[,] image)
+    {
+        int height = image.GetLength(0);
+        int width = image.GetLength(1);
+
+        Console.WriteLine($"Image {height}x{width}:");
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                Console.Write($"{image[i, j]} ");
+            }
+            Console.WriteLine();
+        }
+    }
+    public static void WriteB2imgBin(int[,] image)
     {
         int height = image.GetLength(0);
         int width = image.GetLength(1);

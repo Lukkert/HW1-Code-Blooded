@@ -9,6 +9,7 @@ Overview:
 
 */
 
+using System;
 using Avalonia.Platform.Storage;
 
 namespace HW1
@@ -20,10 +21,21 @@ namespace HW1
         public static int Width { get; set; }
         public static int Height { get; set; }
 
-        public B2Image(IStorageFile file) 
+        public B2Image(IStorageFile file)
         {
             FilePath = file.Path.LocalPath;
-            ImageData = FileManager.ReadB2img(FilePath);
+            if (FilePath.EndsWith("b2img.txt"))
+            {
+              ImageData = FileManager.ReadB2img(FilePath);
+            }
+            else if (FilePath.EndsWith("b2img"))
+            {
+              ImageData = FileManager.ReadB2imgBin(FilePath);
+            }
+            else 
+            {
+                throw new Exception();
+            }
             Width = ImageData.GetLength(1);
             Height = ImageData.GetLength(0);
             // Debugging
