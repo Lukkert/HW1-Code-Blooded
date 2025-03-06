@@ -7,6 +7,7 @@ load it into memory, display and modify its value with a graphical user interfac
 and write it from memory to a potentially different output file.
 
 Extra Tasks done:
+
 -Add functionality for flipping the image
 horizontally or vertically.
 
